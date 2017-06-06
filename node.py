@@ -49,6 +49,15 @@ class Node():
 
     def __eq__(self, other):
         if isinstance(other, Node):
+            # DEBUGGING
+            print(str(self._type) + ': self._type')
+            print(str(self._value) + ': self._value')
+            print(str(other._type) + ': other._type')
+            print(str(other._value) + ': other._value')
+            print(str(self._type == other._type) + ': self._type == other._type')
+            print(str(self._value == other._value) + ': self._value == other._value')
+            print(str(self._type == other._type and self._value == other._value) + ': self._type == other._type and self._value == other._value')
+            # actual code
             return self._type == other._type and self._value == other._value
         else:
             return False

@@ -64,27 +64,78 @@ class TestNodeMethods(unittest.TestCase):
 
     def test___str__(self):
         ''' '''
-        self.assertFalse(True)
+        self.assertEqual('Node($, 5, 1)', str(self.node1))
+        self.assertEqual('Node($, 12, 1)', str(self.node2))
+        self.assertEqual('Node(product name, sunglasses, 2)', str(self.node3))
 
     def test___repr__(self):
         ''' '''
-        self.assertFalse(True)
+        self.assertEqual("Node('$', 5, {Node(product name, sunglasses, 2)})", repr(self.node1))
+        self.assertEqual("Node('$', 12, {Node(product name, sunglasses, 2)})", repr(self.node2))
+        self.assertEqual("Node('product name', 'sunglasses', {Node($, 5, 1), Node($, 12, 1)})", repr(self.node3))
 
     def test___eq__(self):
         ''' '''
-        self.assertFalse(True)
+        self.assertTrue(self.node1 == self.node1)
+        self.assertTrue(self.node2 == self.node2)
+        self.assertTrue(self.node3 == self.node3)
+        self.assertFalse(self.node1 == self.node2)
+        self.assertFalse(self.node1 == self.node3)
+        self.assertFalse(self.node2 == self.node3)
 
     def test___ne__(self):
         ''' '''
-        self.assertFalse(True)
+        self.assertTrue(self.node1 != self.node2)
+        self.assertTrue(self.node1 != self.node3)
+        self.assertTrue(self.node2 != self.node3)
+        self.assertFalse(self.node1 != self.node1)
+        self.assertFalse(self.node2 != self.node2)
+        self.assertFalse(self.node3 != self.node3)
 
     def test___hash__(self):
         ''' '''
-        self.assertFalse(True)
+        n1_hsh = hash(repr(self.node1))
+        self.assertEqual(n1_hsh, self.node1.__hash__())
 
     def test_is_instance(self):
         ''' '''
-        self.assertFalse(True)
+        self.assertTrue(self.node1.is_instance(self.node2))
+        self.assertTrue(self.node1.is_instance(self.node3))
+        self.assertTrue(self.node2.is_instance(self.node1))
+        self.assertTrue(self.node2.is_instance(self.node3))
+        self.assertTrue(self.node3.is_instance(self.node1))
+        self.assertTrue(self.node3.is_instance(self.node2))
+
+    def test_get_type(self):
+        ''' '''
+        self.assertEqual(self.node1.get_type(), self.node1._type)
+        self.assertEqual(self.node1.get_type(), self.node2.get_type())
+        self.assertEqual(self.node2.get_type(), self.node2._type)
+        self.assertEqual(self.node3.get_type(), self.node3._type)
+        self.assertNotEqual(self.node1.get_type(), self.node3.get_type())
+        self.assertNotEqual(self.node1.get_type(), self.node3._type)
+        self.assertNotEqual(self.node2.get_type(), self.node3.get_type())
+        self.assertNotEqual(self.node2.get_type(), self.node3._type)
+
+    def test_get_value(self):
+        ''' '''
+        self.assertEqual(5, self.node1.get_value())
+        self.assertEqual(self.node1._value, self.node1.get_value())
+        self.assertEqual(12, self.node2.get_value())
+        self.assertEqual(self.node2._value, self.node2.get_value())
+        self.assertEqual('sunglasses', self.node3.get_value())
+        self.assertEqual(self.node3._value, self.node3.get_value())
+
+    def test_get_links(self):
+        ''' '''
+        set_of_n3 = {self.node3}
+        self.assertEqual(self.node1.get_links(), self.node1._links)
+        self.assertEqual(self.node1.get_links(), set_of_n3)
+        self.assertEqual(self.node2.get_links(), self.node2._links)
+        # TODO: use debugger to figure out why this is failing
+        self.assertEqual(self.node2.get_links(), set_of_n3) # comes up not equal -- issue with set comparison?
+        self.assertEqual(self.node3.get_links(), self.node3._links)
+        self.assertEqual(self.node3.get_links(), {self.node1, self.node2})
 
 
 # class TestCategoryMethods(unittest.TestCase):
